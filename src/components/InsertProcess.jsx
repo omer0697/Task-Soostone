@@ -4,8 +4,6 @@ import { Input, Button, Select } from 'antd'
 const statuses = ["Done", "In Progress", "To Do"];
 
 function InsertProcess({setNewTask, insertTask, newTask }) {
-
-    console.log(newTask)
     
   return (
     <div className='w-full flex flex-col items-center'>
