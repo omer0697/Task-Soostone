@@ -1,23 +1,73 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import ProcessTask from './components/ProcessTask';
+import InsertProcess from './components/InsertProcess';
+
+const initialTasks= [
+  {
+    "title": "Express Myself",
+    "description": "Set the building on fire.",
+    "status": "To Do",
+    "assignee": "Lyla Harper"
+  },
+  {
+    "title": "Catch Up Work - Saturday",
+    "description": "Gonna need you to come into work on Saturday",
+    "status": "In Progress",
+    "assignee": "Hayes Aguirre"
+  },
+  {
+    "title": "Catch Up Work - Sunday",
+    "description": "Gonna need you to com into work on Sunday too.",
+    "status": "In Progress",
+    "assignee": "Ariah Koch"
+  },
+  {
+    "title": "TPS Reports",
+    "description": "Did you get the memo?",
+    "status": "Done",
+    "assignee": "Salvador Vega"
+  },
+  {
+    "title": "Buy some more \"Flare\"",
+    "description": "Apparently, 13 is not the minimum number of Flare.",
+    "status": "Done",
+    "assignee": "Dakota Calhoun"
+  },
+  {
+    "title": "Move desk into storage room B",
+    "description": "See if you can take care of some of the rat problem while you're down here.",
+    "status": "Done",
+    "assignee": "Gary Crane"
+  }
+]
+
 
 function App() {
+  const [tasks, setTasks] = useState(initialTasks);
+  const [newTask, setNewTask] = useState({
+    title: "",
+    description: "",
+    assignee: ""
+  });
+
+  const changeStatusDrag = (task, newStatus) => {
+    const newTasks = tasks.map(t => {
+      if (t.title === task.title) { // Assuming titles are unique for simplicity
+        return {...t, status: newStatus};
+      }
+      return t;
+    });
+    setTasks(newTasks);
+  };
+
+  const insertTask = (task) => {
+    setTasks([...tasks, task]);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <InsertProcess setNewTask={setNewTask}  insertTask={insertTask} newTask={newTask}/>
+      <ProcessTask tasks={tasks} changeDragAndDrop={changeStatusDrag} />
     </div>
   );
 }
